@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">PocketChef</string>
+    <string name="tabTitle_home">Home</string>
+    <string name="tabTitle_recipes">Recipes</string>
+    <string name="tabTitle_cart">Shopping Cart</string>
+    <string name="tabTitle_settings">Settings</string>
+    <string name="textView">Search</string>
+    <string name="searchHint">I want to make a...</string>
 </resources>
