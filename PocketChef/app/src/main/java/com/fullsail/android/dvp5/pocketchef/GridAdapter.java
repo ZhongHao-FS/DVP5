@@ -36,7 +36,7 @@ public class GridAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         CardViewHolder cvh = (CardViewHolder) holder;
         cvh.tv_title.setText(mCards.get(position).getTitle());
-        Picasso.with(mContext).load(mCards.get(position).getImageLink()).placeholder(R.drawable.ic_launcher_foreground)
+        Picasso.get().load(mCards.get(position).getImageLink()).placeholder(R.drawable.ic_launcher_foreground)
                 .fit().centerInside().into(cvh.iv_cover);
 
         holder.itemView.setOnClickListener(view -> {

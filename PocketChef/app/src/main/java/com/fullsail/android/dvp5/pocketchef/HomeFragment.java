@@ -1,9 +1,7 @@
 package com.fullsail.android.dvp5.pocketchef;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +14,7 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
     private final ArrayList<RecipeCard> mCards = new ArrayList<>();
 
-    public HomeFragment() { }
+    public HomeFragment() { super(R.layout.fragment_home); }
 
     public static HomeFragment newInstance() {
         Bundle args = new Bundle();
@@ -26,17 +24,15 @@ public class HomeFragment extends Fragment {
         return fragment;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        inflater.inflate(R.layout.fragment_home, container);
-        showRecyclerViewGrid();
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+        showRecyclerViewGrid(view);
     }
 
-    private void showRecyclerViewGrid() {
-        RecyclerView rv = requireView().findViewById(R.id.recycleView);
+    private void showRecyclerViewGrid(@NonNull View view) {
+        RecyclerView rv = view.findViewById(R.id.recycleView);
         GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
         rv.setLayoutManager(manager);
         GridAdapter adapter = new GridAdapter(requireContext(), mCards);
