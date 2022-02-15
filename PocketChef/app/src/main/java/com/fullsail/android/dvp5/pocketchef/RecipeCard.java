@@ -10,4 +10,12 @@ public class RecipeCard {
         title = _title;
         imageLink = _image;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getImageLink() {
+        return imageLink;
+    }
 }
