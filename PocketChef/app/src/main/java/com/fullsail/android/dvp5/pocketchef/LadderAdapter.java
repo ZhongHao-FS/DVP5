@@ -15,12 +15,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class GridAdapter extends RecyclerView.Adapter {
-    private static final long BASE_ID = 0x3001;
+public class LadderAdapter extends RecyclerView.Adapter {
     private final Context mContext;
     private final ArrayList<RecipeCard> mCards;
 
-    public GridAdapter(@NonNull Context context, @NonNull ArrayList<RecipeCard> objects) {
+    public LadderAdapter(@NonNull Context context, @NonNull ArrayList<RecipeCard> objects) {
         mContext = context;
         mCards = objects;
     }
@@ -28,7 +27,7 @@ public class GridAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.small_card_cell, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.large_card_cell, parent, false);
         return new CardViewHolder(view);
     }
 
@@ -36,17 +35,13 @@ public class GridAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         CardViewHolder cvh = (CardViewHolder) holder;
         cvh.tv_title.setText(mCards.get(position).getTitle());
+        cvh.tv_descipt.setText(mCards.get(position).getDes());
         Picasso.get().load(mCards.get(position).getImageLink()).placeholder(R.drawable.ic_launcher_foreground)
                 .fit().centerInside().into(cvh.iv_cover);
 
         holder.itemView.setOnClickListener(view -> {
 
         });
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return BASE_ID + i;
     }
 
     @Override
@@ -57,14 +52,16 @@ public class GridAdapter extends RecyclerView.Adapter {
     static class CardViewHolder extends RecyclerView.ViewHolder {
         MaterialCardView cardView;
         TextView tv_title;
+        TextView tv_descipt;
         ImageView iv_cover;
 
         public CardViewHolder(View _layout) {
             super(_layout);
 
-            cardView = _layout.findViewById(R.id.cardView);
-            tv_title = _layout.findViewById(R.id.textView_cardTitle);
-            iv_cover = _layout.findViewById(R.id.imageView);
+            cardView = _layout.findViewById(R.id.cardView_large);
+            tv_title = _layout.findViewById(R.id.textView_large_cardTitle);
+            tv_descipt = _layout.findViewById(R.id.textView_large_cardDes);
+            iv_cover = _layout.findViewById(R.id.imageView_large);
         }
     }
 }
