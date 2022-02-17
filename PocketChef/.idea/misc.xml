@@ -6,6 +6,7 @@
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.228" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.228" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.35260416666666666" />
+        <entry key="app/src/main/res/layout/activity_results.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_cardlist.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/large_card_cell.xml" value="0.35260416666666666" />

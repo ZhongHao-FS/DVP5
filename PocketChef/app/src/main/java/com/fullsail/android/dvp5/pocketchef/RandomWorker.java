@@ -18,10 +18,10 @@ import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class SearchWorker extends Worker {
+public class RandomWorker extends Worker {
     private final Context mContext;
 
-    public SearchWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
+    public RandomWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
 
         mContext = context;
@@ -71,7 +71,7 @@ public class SearchWorker extends Worker {
             e.printStackTrace();
         }
 
-        Intent intent = new Intent(ResultsActivity.BROADCAST_ACTION);
+        Intent intent = new Intent(HomeFragment.BROADCAST_ACTION);
         intent.putExtra("ExtraCards", recipeList);
         mContext.sendBroadcast(intent);
 
