@@ -55,7 +55,7 @@ public class RandomWorker extends Worker {
             JSONObject obj = new JSONObject(jsonData);
             JSONArray recipes = obj.getJSONArray("recipes");
 
-            for (int i = 0; i < recipes.length(); i++) {
+            for (int i = 0; i < 4; i++) {
                 JSONObject recipe = recipes.getJSONObject(i);
                 int id = recipe.getInt("id");
                 String title = recipe.getString("title");

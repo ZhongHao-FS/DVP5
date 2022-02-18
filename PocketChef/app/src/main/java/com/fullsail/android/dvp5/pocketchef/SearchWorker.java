@@ -2,8 +2,10 @@ package com.fullsail.android.dvp5.pocketchef;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
@@ -30,7 +32,8 @@ public class SearchWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        String webAddress = "https://api.spoonacular.com/recipes/random?number=4&apiKey=56113b8493f8442dae66892e54246bfa";
+        String base = "https://api.spoonacular.com/recipes/complexSearch?apiKey=56113b8493f8442dae66892e54246bfa&addRecipeInformation=true&query=";
+        String webAddress = base + ResultsActivity.QUERY;
         String jsonData = "";
         HttpsURLConnection connection;
         ArrayList<RecipeCard> recipeList = new ArrayList<>();
@@ -53,15 +56,18 @@ public class SearchWorker extends Worker {
 
         try {
             JSONObject obj = new JSONObject(jsonData);
-            JSONArray recipes = obj.getJSONArray("recipes");
+            JSONArray results = obj.getJSONArray("results");
 
-            for (int i = 0; i < recipes.length(); i++) {
-                JSONObject recipe = recipes.getJSONObject(i);
+            for (int i = 0; i < results.length(); i++) {
+                JSONObject recipe = results.getJSONObject(i);
                 int id = recipe.getInt("id");
                 String title = recipe.getString("title");
+                Log.i("Title", title);
                 String summary = recipe.getString("summary");
-                String[] sentences = summary.split(".");
+                Log.i("Summary", summary);
+                String[] sentences = summary.split("\\.");
                 String descript = sentences[0];
+                Log.i("desc", descript);
                 String imageLink = recipe.getString("image");
 
                 recipeList.add(new RecipeCard(id, title, descript, imageLink));
@@ -73,7 +79,7 @@ public class SearchWorker extends Worker {
 
         Intent intent = new Intent(ResultsActivity.BROADCAST_ACTION);
         intent.putExtra("ExtraCards", recipeList);
-        mContext.sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
 
         return Result.success();
     }

@@ -4,12 +4,15 @@ import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.work.Constraints;
@@ -24,7 +27,9 @@ import java.util.ArrayList;
 
 public class ResultsActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     public static final String BROADCAST_ACTION = "com.fullsail.android.dvp5.pocketchef.BROADCAST_ACTION_SEARCH";
+    public static String QUERY = "";
     private ArrayList<RecipeCard> mCards = new ArrayList<>();
+    private BroadcastReceiver mReceiver;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,19 +38,25 @@ public class ResultsActivity extends AppCompatActivity implements NavigationBarV
 
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
+            QUERY = intent.getStringExtra(SearchManager.QUERY);
 
-            Constraints constraints = new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build();
-            OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SearchWorker.class).setConstraints(constraints).build();
-            WorkManager.getInstance(this).enqueue(workRequest);
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(BROADCAST_ACTION);
+            mReceiver = new UpdateReceiver();
+            LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, intentFilter);
+
+            if(NetworkUtility.isConnected(this)) {
+                Constraints constraints = new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build();
+                OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SearchWorker.class).setConstraints(constraints).build();
+                WorkManager.getInstance(this).enqueue(workRequest);
+            } else {
+                Toast.makeText(this, "Network is not connected", Toast.LENGTH_SHORT).show();
+            }
         }
 
-        BottomNavigationView bottomBar = findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomBar = findViewById(R.id.bottom_navigation_result);
         bottomBar.setOnItemSelectedListener(this);
-
-        if (savedInstanceState == null) {
-            bottomBar.setSelectedItemId(R.id.tab_home);
-        }
+        bottomBar.setSelectedItemId(R.id.tab_home);
     }
 
     @Override
@@ -54,19 +65,26 @@ public class ResultsActivity extends AppCompatActivity implements NavigationBarV
             case R.id.tab_home:
                 return true;
             case R.id.tab_recipes:
+                unRegister();
                 return true;
             case R.id.tab_cart:
+                unRegister();
                 return true;
             case R.id.tab_settings:
+                unRegister();
                 return true;
         }
 
         return false;
     }
 
+    private void unRegister() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+    }
+
     private void showRecyclerViewLadder() {
         RecyclerView rv = findViewById(R.id.recycleView_result);
-        GridLayoutManager manager = new GridLayoutManager(this, 1);
+        GridLayoutManager manager = new GridLayoutManager(getApplicationContext(), 1);
         rv.setLayoutManager(manager);
         LadderAdapter adapter = new LadderAdapter(this, mCards);
         rv.setAdapter(adapter);

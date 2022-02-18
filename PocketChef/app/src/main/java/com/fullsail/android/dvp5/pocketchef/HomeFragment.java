@@ -1,9 +1,13 @@
 package com.fullsail.android.dvp5.pocketchef;
 
+
+import android.app.SearchManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.SearchView;
 
@@ -33,8 +37,13 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        SearchView search = view.findViewById(R.id.searchView);
-
+        Context context = getContext();
+        if (context != null) {
+            SearchManager searchManager = (SearchManager) context.getSystemService(Context.SEARCH_SERVICE);
+            SearchView search = view.findViewById(R.id.searchView);
+            search.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(context, ResultsActivity.class)));
+            Log.i("Search", new ComponentName(context, ResultsActivity.class).toString());
+        }
 
         showRecyclerViewGrid(view);
     }
