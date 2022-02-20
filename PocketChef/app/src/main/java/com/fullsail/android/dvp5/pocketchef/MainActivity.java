@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             case R.id.tab_cart:
                 return true;
             case R.id.tab_settings:
+                SettingsFragment settings = SettingsFragment.newInstance();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, settings).commit();
                 return true;
         }
 

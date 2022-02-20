@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "484220882448",
+    "firebase_url": "https://pocket-chef-8c01e-default-rtdb.firebaseio.com",
+    "project_id": "pocket-chef-8c01e",
+    "storage_bucket": "pocket-chef-8c01e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484220882448:android:18d2a8f2794d1801c80495",
+        "android_client_info": {
+          "package_name": "com.fullsail.android.dvp5.pocketchef"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "484220882448-g11rk0pf2i5p2mcgj7ab6et6281f5scp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCd76eXzXklyltGquUM-g3Seq2VjgJt8EI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "484220882448-g11rk0pf2i5p2mcgj7ab6et6281f5scp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "484220882448-nhsf7slvm4smqs6im0pohk08ccm597mo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.HaoZhong.Pocket-Chef"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

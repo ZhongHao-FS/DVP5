@@ -6,4 +6,8 @@
     <string name="tabTitle_settings">Settings</string>
     <string name="textView">Search</string>
     <string name="searchHint">I want to make a...</string>
+    <string name="buttonText_profile">Profile</string>
+    <string name="butonText_favRecipes">Favorite Recipes</string>
+    <string name="buttonText_shoppingList">Saved Shopping Lists</string>
+    <string name="buttonText_signOut">Sign Out</string>
 </resources>
