@@ -42,7 +42,6 @@ public class HomeFragment extends Fragment {
             SearchManager searchManager = (SearchManager) context.getSystemService(Context.SEARCH_SERVICE);
             SearchView search = view.findViewById(R.id.searchView);
             search.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(context, ResultsActivity.class)));
-            Log.i("Search", new ComponentName(context, ResultsActivity.class).toString());
         }
 
         showRecyclerViewGrid(view);
