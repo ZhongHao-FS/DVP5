@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 
 public class CardListFragment extends Fragment {
@@ -19,7 +21,7 @@ public class CardListFragment extends Fragment {
 
     public CardListFragment() { super(R.layout.fragment_cardlist); }
 
-    public static CardListFragment newInstance() {
+    public static CardListFragment newInstance(FirebaseUser user) {
         Bundle args = new Bundle();
 
         CardListFragment fragment = new CardListFragment();
