@@ -62,12 +62,9 @@ public class SearchWorker extends Worker {
                 JSONObject recipe = results.getJSONObject(i);
                 int id = recipe.getInt("id");
                 String title = recipe.getString("title");
-                Log.i("Title", title);
                 String summary = recipe.getString("summary");
-                Log.i("Summary", summary);
                 String[] sentences = summary.split("\\.");
                 String descript = sentences[0];
-                Log.i("desc", descript);
                 String imageLink = recipe.getString("image");
 
                 recipeList.add(new RecipeCard(id, title, descript, imageLink));

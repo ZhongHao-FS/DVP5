@@ -15,8 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.work.Constraints;
 import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
@@ -41,13 +39,11 @@ public class ResultsActivity extends AppCompatActivity implements NavigationBarV
     private BroadcastReceiver mReceiver;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
-    private Bundle mInstanceState;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
-        mInstanceState = savedInstanceState;
 
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -66,11 +62,10 @@ public class ResultsActivity extends AppCompatActivity implements NavigationBarV
                 Toast.makeText(this, "Network is not connected", Toast.LENGTH_SHORT).show();
             }
         }
-
         mAuth = FirebaseAuth.getInstance();
+
         BottomNavigationView bottomBar = findViewById(R.id.bottom_navigation_result);
         bottomBar.setOnItemSelectedListener(this);
-        bottomBar.setSelectedItemId(R.id.tab_home);
     }
 
     @Override
@@ -82,27 +77,25 @@ public class ResultsActivity extends AppCompatActivity implements NavigationBarV
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.tab_home) {
-            onCreate(mInstanceState);
+            SearchFragment search = SearchFragment.newInstance(mCards);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView_result, search).commit();
             return true;
         } else if (mUser == null) {
             signIn();
             return true;
         } else {
-            unRegister();
-            setContentView(R.layout.activity_main);
-
             switch (item.getItemId()) {
                 case R.id.tab_recipes:
                     CardListFragment recipes = CardListFragment.newInstance(mUser);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, recipes).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView_result, recipes).commit();
                     return true;
                 case R.id.tab_cart:
                     ShoppingFragment cart = ShoppingFragment.newInstance(mUser);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, cart).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView_result, cart).commit();
                     return true;
                 case R.id.tab_settings:
                     SettingsFragment settings = SettingsFragment.newInstance(mUser);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, settings).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView_result, settings).commit();
                     return true;
             }
             return false;
@@ -125,7 +118,7 @@ public class ResultsActivity extends AppCompatActivity implements NavigationBarV
                 @Override
                 public void onActivityResult(FirebaseAuthUIAuthenticationResult result) {
                     mUser = onSignInResult(result);
-                    BottomNavigationView bottomBar = findViewById(R.id.bottom_navigation);
+                    BottomNavigationView bottomBar = findViewById(R.id.bottom_navigation_result);
                     onNavigationItemSelected(bottomBar.getMenu().getItem(bottomBar.getSelectedItemId()));
                 }
             }
@@ -142,20 +135,24 @@ public class ResultsActivity extends AppCompatActivity implements NavigationBarV
     }
 
     @Override
+    public void onRecipes() {
+        BottomNavigationView bottomBar = findViewById(R.id.bottom_navigation_result);
+        onNavigationItemSelected(bottomBar.getMenu().getItem(R.id.tab_recipes));
+    }
+
+    @Override
+    public void onShopping() {
+        BottomNavigationView bottomBar = findViewById(R.id.bottom_navigation_result);
+        onNavigationItemSelected(bottomBar.getMenu().getItem(R.id.tab_cart));
+    }
+
+    @Override
     public void onSignOut() {
         AuthUI.getInstance().signOut(this).addOnCompleteListener(task -> {
             mUser = null;
-            BottomNavigationView bottomBar = findViewById(R.id.bottom_navigation);
+            BottomNavigationView bottomBar = findViewById(R.id.bottom_navigation_result);
             onNavigationItemSelected(bottomBar.getMenu().getItem(R.id.tab_settings));
         });
-    }
-
-    private void showRecyclerViewLadder() {
-        RecyclerView rv = findViewById(R.id.recycleView_result);
-        GridLayoutManager manager = new GridLayoutManager(getApplicationContext(), 1);
-        rv.setLayoutManager(manager);
-        LadderAdapter adapter = new LadderAdapter(this, mCards);
-        rv.setAdapter(adapter);
     }
 
     class UpdateReceiver extends BroadcastReceiver {
@@ -163,7 +160,9 @@ public class ResultsActivity extends AppCompatActivity implements NavigationBarV
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(BROADCAST_ACTION)) {
                 mCards = (ArrayList<RecipeCard>) intent.getSerializableExtra("ExtraCards");
-                showRecyclerViewLadder();
+                unRegister();
+                SearchFragment search = SearchFragment.newInstance(mCards);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView_result, search).commit();
             }
         }
     }

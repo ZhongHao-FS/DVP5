@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -75,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     }
 
     private void signIn() {
-        Log.i("Not signed in yet,", "Signing in");
         List<AuthUI.IdpConfig> provider = Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build());
         Intent signInIntent = AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(provider).build();
         signInLauncher.launch(signInIntent);
@@ -86,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             new ActivityResultCallback<FirebaseAuthUIAuthenticationResult>() {
                 @Override
                 public void onActivityResult(FirebaseAuthUIAuthenticationResult result) {
-                    Log.i("Signed in,", "Getting user");
                     mUser = onSignInResult(result);
                     BottomNavigationView bottomBar = findViewById(R.id.bottom_navigation);
                     onNavigationItemSelected(bottomBar.getMenu().getItem(bottomBar.getSelectedItemId()));
@@ -96,13 +93,24 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
     private FirebaseUser onSignInResult(FirebaseAuthUIAuthenticationResult result) {
         if (result.getResultCode() == RESULT_OK) {
-            Log.i("Got user", "Redirecting");
             return mAuth.getCurrentUser();
         } else {
             Toast.makeText(this, "Email or password is incorrect, please sign in again!", Toast.LENGTH_SHORT).show();
             signIn();
             return null;
         }
+    }
+
+    @Override
+    public void onRecipes() {
+        BottomNavigationView bottomBar = findViewById(R.id.bottom_navigation);
+        onNavigationItemSelected(bottomBar.getMenu().getItem(R.id.tab_recipes));
+    }
+
+    @Override
+    public void onShopping() {
+        BottomNavigationView bottomBar = findViewById(R.id.bottom_navigation);
+        onNavigationItemSelected(bottomBar.getMenu().getItem(R.id.tab_cart));
     }
 
     @Override

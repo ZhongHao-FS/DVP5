@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
@@ -60,7 +61,7 @@ public class RandomWorker extends Worker {
                 int id = recipe.getInt("id");
                 String title = recipe.getString("title");
                 String summary = recipe.getString("summary");
-                String[] sentences = summary.split(".");
+                String[] sentences = summary.split("\\.");
                 String descript = sentences[0];
                 String imageLink = recipe.getString("image");
 
@@ -73,7 +74,7 @@ public class RandomWorker extends Worker {
 
         Intent intent = new Intent(HomeFragment.BROADCAST_ACTION);
         intent.putExtra("ExtraCards", recipeList);
-        mContext.sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
 
         return Result.success();
     }

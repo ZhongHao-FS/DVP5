@@ -15,6 +15,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     private SettingsControlListener listener;
 
     public interface SettingsControlListener {
+        void onRecipes();
+        void onShopping();
         void onSignOut();
     }
 
@@ -41,6 +43,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Button recipeButton = view.findViewById(R.id.button_favRecipes);
+        recipeButton.setOnClickListener(this);
+        Button shoppingButton = view.findViewById(R.id.button_shoppingList);
+        shoppingButton.setOnClickListener(this);
         Button signOutButton = view.findViewById(R.id.button_signOut);
         signOutButton.setOnClickListener(this);
     }
@@ -48,6 +54,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.button_favRecipes:
+                listener.onRecipes();
+            case R.id.button_shoppingList:
+                listener.onShopping();
             case R.id.button_signOut:
                 listener.onSignOut();
         }
