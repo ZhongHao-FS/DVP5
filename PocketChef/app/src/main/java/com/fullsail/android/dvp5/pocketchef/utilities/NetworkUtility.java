@@ -1,4 +1,4 @@
-package com.fullsail.android.dvp5.pocketchef;
+package com.fullsail.android.dvp5.pocketchef.utilities;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

@@ -1,8 +1,5 @@
-package com.fullsail.android.dvp5.pocketchef;
+package com.fullsail.android.dvp5.pocketchef.fragments;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -12,7 +9,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseUser;
+import com.fullsail.android.dvp5.pocketchef.LadderAdapter;
+import com.fullsail.android.dvp5.pocketchef.R;
+import com.fullsail.android.dvp5.pocketchef.RecipeCard;
 
 import java.util.ArrayList;
 
@@ -21,12 +20,8 @@ public class CardListFragment extends Fragment {
 
     public CardListFragment() { super(R.layout.fragment_cardlist); }
 
-    public static CardListFragment newInstance(FirebaseUser user) {
-        Bundle args = new Bundle();
-
-        CardListFragment fragment = new CardListFragment();
-        fragment.setArguments(args);
-        return fragment;
+    public static CardListFragment newInstance() {
+        return new CardListFragment();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.fullsail.android.dvp5.pocketchef;
+package com.fullsail.android.dvp5.pocketchef.utilities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
+
+import com.fullsail.android.dvp5.pocketchef.RecipeCard;
+import com.fullsail.android.dvp5.pocketchef.ResultsActivity;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
@@ -19,10 +22,10 @@ import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class RandomWorker extends Worker {
+public class SearchWorker extends Worker {
     private final Context mContext;
 
-    public RandomWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
+    public SearchWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
 
         mContext = context;
@@ -31,7 +34,8 @@ public class RandomWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        String webAddress = "https://api.spoonacular.com/recipes/random?number=4&apiKey=56113b8493f8442dae66892e54246bfa";
+        String base = "https://api.spoonacular.com/recipes/complexSearch?apiKey=56113b8493f8442dae66892e54246bfa&addRecipeInformation=true&query=";
+        String webAddress = base + ResultsActivity.QUERY;
         String jsonData = "";
         HttpsURLConnection connection;
         ArrayList<RecipeCard> recipeList = new ArrayList<>();
@@ -54,10 +58,10 @@ public class RandomWorker extends Worker {
 
         try {
             JSONObject obj = new JSONObject(jsonData);
-            JSONArray recipes = obj.getJSONArray("recipes");
+            JSONArray results = obj.getJSONArray("results");
 
-            for (int i = 0; i < 4; i++) {
-                JSONObject recipe = recipes.getJSONObject(i);
+            for (int i = 0; i < results.length(); i++) {
+                JSONObject recipe = results.getJSONObject(i);
                 int id = recipe.getInt("id");
                 String title = recipe.getString("title");
                 String summary = recipe.getString("summary");
@@ -72,7 +76,7 @@ public class RandomWorker extends Worker {
             e.printStackTrace();
         }
 
-        Intent intent = new Intent(HomeFragment.BROADCAST_ACTION);
+        Intent intent = new Intent(ResultsActivity.BROADCAST_ACTION);
         intent.putExtra("ExtraCards", recipeList);
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
 

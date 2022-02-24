@@ -1,28 +1,31 @@
 package com.fullsail.android.dvp5.pocketchef;
 
-import androidx.annotation.Nullable;
+import java.io.Serializable;
+import java.util.ArrayList;
 
-public class Recipe {
+public class Recipe implements Serializable {
     private final int id;
     private final String title;
-    private final int calories;
-    private final String carbs;
-    private final String fat;
-    private final String protein;
+    private final String instruction;
     private final String imageLink;
+    private final ArrayList<ListItem> ingredients;
+    private final ArrayList<ListItem> nutrition;
 
-    public Recipe(int _id, String _title, int _calories, @Nullable String _carbs, @Nullable String _fat, @Nullable String _protein, String _image) {
+    public Recipe(int _id, String _title, String _instruction, String _image, ArrayList<ListItem> _ingredients, ArrayList<ListItem> _nutrition) {
         id = _id;
         title = _title;
-        calories = _calories;
-        carbs = _carbs;
-        fat = _fat;
-        protein = _protein;
+        instruction = _instruction;
         imageLink = _image;
+        ingredients = _ingredients;
+        nutrition = _nutrition;
     }
 
     public String getTitle() {
         return title;
+    }
+
+    public String getInstruction() {
+        return instruction;
     }
 
     public String getImageLink() {

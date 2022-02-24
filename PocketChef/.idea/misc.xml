@@ -8,13 +8,18 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/activity_results.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_cardlist.xml" value="0.35260416666666666" />
+        <entry key="app/src/main/res/layout/fragment_details.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/fragment_shopping.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/large_card_cell.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/material_card_cell.xml" value="0.35260416666666666" />
+        <entry key="app/src/main/res/layout/nutritioninfo_cell.xml" value="0.35260416666666666" />
+        <entry key="app/src/main/res/layout/small_card_cell.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.33" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2055" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2055" />
       </map>
     </option>
   </component>

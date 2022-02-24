@@ -1,4 +1,4 @@
-package com.fullsail.android.dvp5.pocketchef;
+package com.fullsail.android.dvp5.pocketchef.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.firebase.auth.FirebaseUser;
+import com.fullsail.android.dvp5.pocketchef.R;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener {
     private SettingsControlListener listener;
@@ -22,12 +22,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     public SettingsFragment() { super(R.layout.fragment_settings); }
 
-    public static SettingsFragment newInstance(FirebaseUser user) {
-        Bundle args = new Bundle();
-
-        SettingsFragment fragment = new SettingsFragment();
-        fragment.setArguments(args);
-        return fragment;
+    public static SettingsFragment newInstance() {
+        return new SettingsFragment();
     }
 
     @Override

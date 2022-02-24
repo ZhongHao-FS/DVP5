@@ -10,4 +10,9 @@
     <string name="butonText_favRecipes">Favorite Recipes</string>
     <string name="buttonText_shoppingList">Saved Shopping Lists</string>
     <string name="buttonText_signOut">Sign Out</string>
+    <string name="imageDesc_detailImage">Dish Image</string>
+    <string name="text_sub1">Ingredients</string>
+    <string name="text_sub2">Instructions</string>
+    <string name="text_sub3">Nutritional Information</string>
+    <string name="buttonText_add">Add as Favorite</string>
 </resources>

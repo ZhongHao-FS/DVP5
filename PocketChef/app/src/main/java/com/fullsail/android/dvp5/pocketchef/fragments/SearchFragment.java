@@ -1,4 +1,4 @@
-package com.fullsail.android.dvp5.pocketchef;
+package com.fullsail.android.dvp5.pocketchef.fragments;
 
 import android.app.SearchManager;
 import android.content.ComponentName;
@@ -12,6 +12,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.fullsail.android.dvp5.pocketchef.LadderAdapter;
+import com.fullsail.android.dvp5.pocketchef.R;
+import com.fullsail.android.dvp5.pocketchef.RecipeCard;
+import com.fullsail.android.dvp5.pocketchef.ResultsActivity;
 
 import java.util.ArrayList;
 

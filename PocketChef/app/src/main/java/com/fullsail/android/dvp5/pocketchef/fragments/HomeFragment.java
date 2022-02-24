@@ -1,4 +1,4 @@
-package com.fullsail.android.dvp5.pocketchef;
+package com.fullsail.android.dvp5.pocketchef.fragments;
 
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
@@ -21,6 +21,13 @@ import androidx.work.Constraints;
 import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
+
+import com.fullsail.android.dvp5.pocketchef.GridAdapter;
+import com.fullsail.android.dvp5.pocketchef.utilities.NetworkUtility;
+import com.fullsail.android.dvp5.pocketchef.R;
+import com.fullsail.android.dvp5.pocketchef.utilities.RandomWorker;
+import com.fullsail.android.dvp5.pocketchef.RecipeCard;
+import com.fullsail.android.dvp5.pocketchef.ResultsActivity;
 
 import java.util.ArrayList;
 
