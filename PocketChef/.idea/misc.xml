@@ -5,6 +5,9 @@
       <map>
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.228" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.228" />
+        <entry key="app/src/main/res/drawable/ic_placeholder_background.xml" value="0.1005" />
+        <entry key="app/src/main/res/drawable/ic_placeholder_grid.xml" value="0.2055" />
+        <entry key="app/src/main/res/drawable/ic_placeholder_ladder.xml" value="0.1005" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/activity_results.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_cardlist.xml" value="0.35260416666666666" />
@@ -14,6 +17,7 @@
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/fragment_shopping.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/large_card_cell.xml" value="0.35260416666666666" />
+        <entry key="app/src/main/res/layout/listitem_cell.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/material_card_cell.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/nutritioninfo_cell.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/small_card_cell.xml" value="0.35260416666666666" />

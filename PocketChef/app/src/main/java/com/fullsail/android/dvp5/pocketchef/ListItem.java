@@ -10,4 +10,12 @@ public class ListItem implements Serializable {
         name = _name;
         quantity = _quantity;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getQuantity() {
+        return quantity;
+    }
 }

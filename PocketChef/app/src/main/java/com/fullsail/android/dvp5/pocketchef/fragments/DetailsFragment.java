@@ -22,11 +22,17 @@ import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
+import com.fullsail.android.dvp5.pocketchef.ListAdapter;
+import com.fullsail.android.dvp5.pocketchef.ListItem;
 import com.fullsail.android.dvp5.pocketchef.R;
 import com.fullsail.android.dvp5.pocketchef.Recipe;
 import com.fullsail.android.dvp5.pocketchef.utilities.DetailWorker;
 import com.fullsail.android.dvp5.pocketchef.utilities.NetworkUtility;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class DetailsFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "DetailsFragment.TAG";
@@ -84,10 +90,19 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
 
     private void showRecipe(@NonNull View view) {
         ImageView iv_detail = view.findViewById(R.id.imageView_detail);
-        Picasso.get().load(mRecipe.getImageLink()).placeholder(R.drawable.ic_launcher_foreground)
-                .fit().centerInside().into(iv_detail);
+        Picasso.get().load(mRecipe.getImageLink()).placeholder(R.drawable.ic_placeholder_background)
+                .fit().centerCrop().into(iv_detail);
         TextView tv_title = view.findViewById(R.id.textView_detailTitle);
         tv_title.setText(mRecipe.getTitle());
+
+        ChipGroup chipGroup = view.findViewById(R.id.chipGroup);
+        ArrayList<ListItem> ingredients = mRecipe.getIngredients();
+        for (ListItem item : ingredients) {
+            Chip chip = new Chip(mContext);
+            chip.setText(item.getName());
+            chip.setCheckable(true);
+            chipGroup.addView(chip);
+        }
 
         TextView tv_instruction = view.findViewById(R.id.textView_instructionText);
         tv_instruction.setText(mRecipe.getInstruction());
@@ -95,6 +110,8 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
         RecyclerView rv = view.findViewById(R.id.recyclerView_details);
         GridLayoutManager manager = new GridLayoutManager(mContext, 1);
         rv.setLayoutManager(manager);
+        ListAdapter adapter = new ListAdapter(mContext, mRecipe.getNutrition());
+        rv.setAdapter(adapter);
     }
 
     private void unRegister() {

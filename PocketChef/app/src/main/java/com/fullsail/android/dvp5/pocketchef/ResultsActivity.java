@@ -23,6 +23,7 @@ import androidx.work.WorkManager;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.fullsail.android.dvp5.pocketchef.fragments.CardListFragment;
+import com.fullsail.android.dvp5.pocketchef.fragments.DetailsFragment;
 import com.fullsail.android.dvp5.pocketchef.fragments.SearchFragment;
 import com.fullsail.android.dvp5.pocketchef.fragments.SettingsFragment;
 import com.fullsail.android.dvp5.pocketchef.fragments.ShoppingFragment;
@@ -35,7 +36,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
-public class ResultsActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener, SettingsFragment.SettingsControlListener {
+public class ResultsActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener,
+        SettingsFragment.SettingsControlListener, LadderAdapter.OnCardClickListener {
     public static final String BROADCAST_ACTION = "com.fullsail.android.dvp5.pocketchef.BROADCAST_ACTION_SEARCH";
     public static String QUERY = "";
     private ArrayList<RecipeCard> mCards = new ArrayList<>();
@@ -47,7 +49,21 @@ public class ResultsActivity extends AppCompatActivity implements NavigationBarV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
-        Intent intent = getIntent();
+        handleIntent(getIntent());
+        mHelper = new FirebaseHelper();
+
+        BottomNavigationView bottomBar = findViewById(R.id.bottom_navigation_result);
+        bottomBar.setOnItemSelectedListener(this);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             QUERY = intent.getStringExtra(SearchManager.QUERY);
 
@@ -64,16 +80,12 @@ public class ResultsActivity extends AppCompatActivity implements NavigationBarV
                 Toast.makeText(this, "Network is not connected", Toast.LENGTH_SHORT).show();
             }
         }
-        mHelper = new FirebaseHelper();
-
-        BottomNavigationView bottomBar = findViewById(R.id.bottom_navigation_result);
-        bottomBar.setOnItemSelectedListener(this);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.tab_home) {
-            SearchFragment search = SearchFragment.newInstance(mCards);
+            SearchFragment search = SearchFragment.newInstance(this, mCards);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView_result, search).commit();
             return true;
         } else {
@@ -113,8 +125,10 @@ public class ResultsActivity extends AppCompatActivity implements NavigationBarV
             }
     );
 
-    private void unRegister() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+    @Override
+    public void onCardClick(int position) {
+        DetailsFragment details = DetailsFragment.newInstance(mCards.get(position).getId());
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView_result, details).commit();
     }
 
     @Override
@@ -134,13 +148,17 @@ public class ResultsActivity extends AppCompatActivity implements NavigationBarV
         mHelper.signOut(this);
     }
 
+    private void unRegister() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+    }
+
     class UpdateReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(BROADCAST_ACTION)) {
                 mCards = (ArrayList<RecipeCard>) intent.getSerializableExtra("ExtraCards");
                 unRegister();
-                SearchFragment search = SearchFragment.newInstance(mCards);
+                SearchFragment search = SearchFragment.newInstance(ResultsActivity.this, mCards);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView_result, search).commit();
             }
         }

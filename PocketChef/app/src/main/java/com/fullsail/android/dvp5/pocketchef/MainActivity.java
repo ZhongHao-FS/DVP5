@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.fullsail.android.dvp5.pocketchef.fragments.CardListFragment;
+import com.fullsail.android.dvp5.pocketchef.fragments.DetailsFragment;
 import com.fullsail.android.dvp5.pocketchef.fragments.HomeFragment;
 import com.fullsail.android.dvp5.pocketchef.fragments.SettingsFragment;
 import com.fullsail.android.dvp5.pocketchef.fragments.ShoppingFragment;
@@ -21,7 +22,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener, SettingsFragment.SettingsControlListener {
+public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener,
+        SettingsFragment.SettingsControlListener, LadderAdapter.OnCardClickListener, GridAdapter.OnSampleClickListener {
     private FirebaseHelper mHelper;
 
     @Override
@@ -96,5 +98,17 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     @Override
     public void onSignOut() {
         mHelper.signOut(this);
+    }
+
+    @Override
+    public void onSampleClick(int position) {
+        DetailsFragment details = DetailsFragment.newInstance(HomeFragment.mCards.get(position).getId());
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, details).commit();
+    }
+
+    @Override
+    public void onCardClick(int position) {
+        DetailsFragment details = DetailsFragment.newInstance(CardListFragment.mCards.get(position).getId());
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, details).commit();
     }
 }

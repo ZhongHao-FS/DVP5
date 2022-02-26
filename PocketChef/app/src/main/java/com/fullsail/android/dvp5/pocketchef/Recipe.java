@@ -31,4 +31,8 @@ public class Recipe implements Serializable {
     public String getImageLink() {
         return imageLink;
     }
+
+    public ArrayList<ListItem> getIngredients() { return ingredients; }
+
+    public ArrayList<ListItem> getNutrition() { return nutrition; }
 }

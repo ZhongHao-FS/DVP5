@@ -34,7 +34,7 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
     public static final String BROADCAST_ACTION = "com.fullsail.android.dvp5.pocketchef.BROADCAST_ACTION_RANDOM";
     private Context mContext;
-    private ArrayList<RecipeCard> mCards = new ArrayList<>();
+    public static ArrayList<RecipeCard> mCards = new ArrayList<>();
     private BroadcastReceiver mReceiver;
 
     public HomeFragment() { super(R.layout.fragment_home); }
@@ -79,7 +79,7 @@ public class HomeFragment extends Fragment {
         RecyclerView rv = view.findViewById(R.id.recycleView);
         GridLayoutManager manager = new GridLayoutManager(mContext, 2);
         rv.setLayoutManager(manager);
-        GridAdapter adapter = new GridAdapter(requireContext(), mCards);
+        GridAdapter adapter = new GridAdapter(requireContext(), mCards, (GridAdapter.OnSampleClickListener) mContext);
         rv.setAdapter(adapter);
     }
 

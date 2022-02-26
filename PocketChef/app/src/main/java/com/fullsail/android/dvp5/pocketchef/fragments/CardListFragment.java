@@ -16,7 +16,7 @@ import com.fullsail.android.dvp5.pocketchef.RecipeCard;
 import java.util.ArrayList;
 
 public class CardListFragment extends Fragment {
-    private ArrayList<RecipeCard> mCards = new ArrayList<>();
+    public static ArrayList<RecipeCard> mCards = new ArrayList<>();
 
     public CardListFragment() { super(R.layout.fragment_cardlist); }
 
@@ -35,8 +35,7 @@ public class CardListFragment extends Fragment {
         RecyclerView rv = view.findViewById(R.id.recycleView_recipes);
         GridLayoutManager manager = new GridLayoutManager(getContext(), 1);
         rv.setLayoutManager(manager);
-        LadderAdapter adapter = new LadderAdapter(requireContext(), mCards);
+        LadderAdapter adapter = new LadderAdapter(requireContext(), mCards, (LadderAdapter.OnCardClickListener) getContext());
         rv.setAdapter(adapter);
     }
-
 }

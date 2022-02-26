@@ -22,15 +22,18 @@ import java.util.ArrayList;
 
 public class SearchFragment extends Fragment {
     private static final String TAG = "SearchFragment.TAG";
+    @NonNull private final Context mContext;
     private ArrayList<RecipeCard> mCards = new ArrayList<>();
 
-    public SearchFragment() { super(R.layout.fragment_search); }
+    public SearchFragment(@NonNull Context context) { super(R.layout.fragment_search);
+        mContext = context;
+    }
 
-    public static SearchFragment newInstance(ArrayList<RecipeCard> cards) {
+    public static SearchFragment newInstance(Context context, ArrayList<RecipeCard> cards) {
         Bundle args = new Bundle();
         args.putSerializable(TAG, cards);
 
-        SearchFragment fragment = new SearchFragment();
+        SearchFragment fragment = new SearchFragment(context);
         fragment.setArguments(args);
         return fragment;
     }
@@ -42,19 +45,16 @@ public class SearchFragment extends Fragment {
         mCards = (ArrayList<RecipeCard>) getArguments().getSerializable(TAG);
         showRecyclerViewLadder(view);
 
-        Context context = getContext();
-        if (context != null) {
-            SearchManager searchManager = (SearchManager) context.getSystemService(Context.SEARCH_SERVICE);
-            SearchView search = view.findViewById(R.id.searchView_search);
-            search.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(context, ResultsActivity.class)));
-        }
+        SearchManager searchManager = (SearchManager) mContext.getSystemService(Context.SEARCH_SERVICE);
+        SearchView search = view.findViewById(R.id.searchView_search);
+        search.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(mContext, ResultsActivity.class)));
     }
 
     private void showRecyclerViewLadder(@NonNull View view) {
         RecyclerView rv = view.findViewById(R.id.recycleView_search);
-        GridLayoutManager manager = new GridLayoutManager(getContext(), 1);
+        GridLayoutManager manager = new GridLayoutManager(mContext, 1);
         rv.setLayoutManager(manager);
-        LadderAdapter adapter = new LadderAdapter(requireContext(), mCards);
+        LadderAdapter adapter = new LadderAdapter(mContext, mCards, (LadderAdapter.OnCardClickListener) mContext);
         rv.setAdapter(adapter);
     }
 }

@@ -23,7 +23,8 @@
         </activity>
         <activity
             android:name=".ResultsActivity"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>
