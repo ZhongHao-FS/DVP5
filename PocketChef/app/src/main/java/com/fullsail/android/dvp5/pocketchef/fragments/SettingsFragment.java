@@ -52,8 +52,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.button_favRecipes:
                 listener.onRecipes();
+                break;
             case R.id.button_shoppingList:
                 listener.onShopping();
+                break;
             case R.id.button_signOut:
                 listener.onSignOut();
         }

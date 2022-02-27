@@ -10,7 +10,7 @@ import android.widget.SearchView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fullsail.android.dvp5.pocketchef.LadderAdapter;
@@ -52,7 +52,7 @@ public class SearchFragment extends Fragment {
 
     private void showRecyclerViewLadder(@NonNull View view) {
         RecyclerView rv = view.findViewById(R.id.recycleView_search);
-        GridLayoutManager manager = new GridLayoutManager(mContext, 1);
+        LinearLayoutManager manager = new LinearLayoutManager(mContext);
         rv.setLayoutManager(manager);
         LadderAdapter adapter = new LadderAdapter(mContext, mCards, (LadderAdapter.OnCardClickListener) mContext);
         rv.setAdapter(adapter);

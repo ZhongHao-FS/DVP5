@@ -88,8 +88,12 @@ public class DetailWorker extends Worker {
                 nutritionList.add(new ListItem(name, quantity));
             }
 
+            String summary = obj.getString("summary");
+            String[] sentences = summary.split("\\.");
+            String descript = sentences[0];
             String instructions = obj.getString("instructions");
-            recipe = new Recipe(DetailsFragment.ID, title, instructions, image, ingredientsList, nutritionList);
+
+            recipe = new Recipe(DetailsFragment.ID, title, descript, instructions, image, ingredientsList, nutritionList);
         } catch (JSONException e) {
             e.printStackTrace();
         }

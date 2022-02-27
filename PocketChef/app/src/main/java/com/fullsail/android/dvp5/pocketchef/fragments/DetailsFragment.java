@@ -27,6 +27,7 @@ import com.fullsail.android.dvp5.pocketchef.ListItem;
 import com.fullsail.android.dvp5.pocketchef.R;
 import com.fullsail.android.dvp5.pocketchef.Recipe;
 import com.fullsail.android.dvp5.pocketchef.utilities.DetailWorker;
+import com.fullsail.android.dvp5.pocketchef.utilities.FirebaseHelper;
 import com.fullsail.android.dvp5.pocketchef.utilities.NetworkUtility;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -40,6 +41,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
     public static int ID = 0;
     private Context mContext;
     private BroadcastReceiver mReceiver;
+    private OnAuthRequired mListener;
     private Recipe mRecipe;
 
     public DetailsFragment() { super(R.layout.fragment_details); }
@@ -51,6 +53,19 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
         DetailsFragment fragment = new DetailsFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public interface OnAuthRequired {
+        void onSignInRequest();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        if (context instanceof OnAuthRequired) {
+            mListener = (OnAuthRequired) context;
+        }
     }
 
     @Override
@@ -85,7 +100,11 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-
+        if (FirebaseHelper.mUser == null || FirebaseHelper.mDatabase == null) {
+            mListener.onSignInRequest();
+        } else if (mRecipe != null) {
+            FirebaseHelper.writeRecipeCard(mContext, mRecipe.getId(), mRecipe.getTitle(), mRecipe.getDescript(), mRecipe.getImageLink());
+        }
     }
 
     private void showRecipe(@NonNull View view) {
@@ -100,7 +119,16 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
         for (ListItem item : ingredients) {
             Chip chip = new Chip(mContext);
             chip.setText(item.getName());
-            chip.setCheckable(true);
+            if (FirebaseHelper.mUser != null && FirebaseHelper.mDatabase != null) {
+                chip.setCheckable(true);
+                chip.setOnCheckedChangeListener((compoundButton, b) -> {
+                    if (b) {
+                        FirebaseHelper.writeShoppingItem(item.getName(), item.getQuantity());
+                    } else {
+                        FirebaseHelper.deleteShoppingItem(item.getName());
+                    }
+                });
+            }
             chipGroup.addView(chip);
         }
 

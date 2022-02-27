@@ -33,11 +33,12 @@ import com.fullsail.android.dvp5.pocketchef.utilities.SearchWorker;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
 public class ResultsActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener,
-        SettingsFragment.SettingsControlListener, LadderAdapter.OnCardClickListener {
+        SettingsFragment.SettingsControlListener, LadderAdapter.OnCardClickListener, DetailsFragment.OnAuthRequired {
     public static final String BROADCAST_ACTION = "com.fullsail.android.dvp5.pocketchef.BROADCAST_ACTION_SEARCH";
     public static String QUERY = "";
     private ArrayList<RecipeCard> mCards = new ArrayList<>();
@@ -117,6 +118,7 @@ public class ResultsActivity extends AppCompatActivity implements NavigationBarV
                 public void onActivityResult(FirebaseAuthUIAuthenticationResult result) {
                     if (result.getResultCode() == RESULT_OK) {
                         FirebaseHelper.mUser = FirebaseAuth.getInstance().getCurrentUser();
+                        FirebaseHelper.mDatabase = FirebaseDatabase.getInstance().getReference();
                     } else {
                         Toast.makeText(ResultsActivity.this, "Email or password was incorrect. Please try again!", Toast.LENGTH_SHORT).show();
                         mHelper.signIn(signInLauncher);
@@ -124,6 +126,11 @@ public class ResultsActivity extends AppCompatActivity implements NavigationBarV
                 }
             }
     );
+
+    @Override
+    public void onSignInRequest() {
+        mHelper.signIn(signInLauncher);
+    }
 
     @Override
     public void onCardClick(int position) {

@@ -20,10 +20,15 @@ import com.fullsail.android.dvp5.pocketchef.fragments.ShoppingFragment;
 import com.fullsail.android.dvp5.pocketchef.utilities.FirebaseHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.appcheck.FirebaseAppCheck;
+import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener,
-        SettingsFragment.SettingsControlListener, LadderAdapter.OnCardClickListener, GridAdapter.OnSampleClickListener {
+        SettingsFragment.SettingsControlListener, LadderAdapter.OnCardClickListener, GridAdapter.OnSampleClickListener,
+        DetailsFragment.OnAuthRequired {
     private FirebaseHelper mHelper;
 
     @Override
@@ -31,6 +36,10 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        FirebaseApp.initializeApp(this);
+        FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
+        firebaseAppCheck.installAppCheckProviderFactory(
+                DebugAppCheckProviderFactory.getInstance());
         mHelper = new FirebaseHelper();
         BottomNavigationView bottomBar = findViewById(R.id.bottom_navigation);
         bottomBar.setOnItemSelectedListener(this);
@@ -75,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 public void onActivityResult(FirebaseAuthUIAuthenticationResult result) {
                     if (result.getResultCode() == RESULT_OK) {
                         FirebaseHelper.mUser = FirebaseAuth.getInstance().getCurrentUser();
+                        FirebaseHelper.mDatabase = FirebaseDatabase.getInstance().getReference();
                     } else {
                         Toast.makeText(MainActivity.this, "Email or password was incorrect. Please try again!", Toast.LENGTH_SHORT).show();
                         mHelper.signIn(signInLauncher);
@@ -82,6 +92,11 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 }
             }
     );
+
+    @Override
+    public void onSignInRequest() {
+        mHelper.signIn(signInLauncher);
+    }
 
     @Override
     public void onRecipes() {
