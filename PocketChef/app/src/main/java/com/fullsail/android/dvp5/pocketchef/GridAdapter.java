@@ -52,9 +52,9 @@ public class GridAdapter extends RecyclerView.Adapter {
 
     static class CardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final OnSampleClickListener listener;
-        MaterialCardView cardView;
-        TextView tv_title;
-        ImageView iv_cover;
+        final MaterialCardView cardView;
+        final TextView tv_title;
+        final ImageView iv_cover;
 
         public CardViewHolder(View _layout, OnSampleClickListener _listener) {
             super(_layout);

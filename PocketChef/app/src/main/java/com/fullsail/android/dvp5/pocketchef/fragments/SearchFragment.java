@@ -42,7 +42,7 @@ public class SearchFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mCards = (ArrayList<RecipeCard>) getArguments().getSerializable(TAG);
+        mCards = (ArrayList<RecipeCard>) requireArguments().getSerializable(TAG);
         showRecyclerViewLadder(view);
 
         SearchManager searchManager = (SearchManager) mContext.getSystemService(Context.SEARCH_SERVICE);

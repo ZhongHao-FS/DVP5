@@ -53,10 +53,10 @@ public class LadderAdapter extends RecyclerView.Adapter {
 
     static class CardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final OnCardClickListener listener;
-        MaterialCardView cardView;
-        TextView tv_title;
-        TextView tv_descipt;
-        ImageView iv_cover;
+        final MaterialCardView cardView;
+        final TextView tv_title;
+        final TextView tv_descipt;
+        final ImageView iv_cover;
 
         public CardViewHolder(View _layout, OnCardClickListener _listener) {
             super(_layout);

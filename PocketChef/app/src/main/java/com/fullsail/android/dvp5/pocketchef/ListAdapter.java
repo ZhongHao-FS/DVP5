@@ -40,8 +40,8 @@ public class ListAdapter extends RecyclerView.Adapter {
     }
 
     static class ListViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_item;
-        TextView tv_quantity;
+        final TextView tv_item;
+        final TextView tv_quantity;
 
         public ListViewHolder(View _layout) {
             super(_layout);
