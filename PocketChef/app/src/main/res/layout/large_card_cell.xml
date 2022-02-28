@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        app:cardBackgroundColor="@color/grey_100"
+        app:cardCornerRadius="8dp"
         tools:layout_editor_absoluteX="8dp">
 
         <LinearLayout
